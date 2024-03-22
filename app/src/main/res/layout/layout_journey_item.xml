@@ -6,17 +6,20 @@
     android:layout_marginStart="@dimen/margin_4">
 
 
-    <androidx.appcompat.widget.AppCompatImageView
+
+    <View
         android:id="@+id/line"
-        android:layout_width="2dp"
+        android:layout_width="1dp"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/margin_top_dotted_line_odd"
-        android:scaleType="fitXY"
+        android:background="@drawable/dashed_line_vertical"
+        android:backgroundTint="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/tv_saved_amount"
         app:layout_constraintEnd_toEndOf="@+id/rv_items"
         app:layout_constraintStart_toStartOf="@+id/rv_items"
         app:layout_constraintTop_toTopOf="@+id/rv_items"
-        app:srcCompat="@drawable/dashed_line_vertical" />
+        android:layerType="software"
+        />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
