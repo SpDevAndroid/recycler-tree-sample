@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/ViewPagerFragment">
 
     <fragment
         android:id="@+id/FirstFragment"
@@ -24,5 +24,16 @@
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ViewPagerFragment"
+        android:name="com.tp.recyclertree.viewpagersample.ViewPagerSampleFragment"
+        android:label="@string/view_pager_fragment"
+        tools:layout="@layout/fragment_view_pager_sample">
+
+        <action
+            android:id="@+id/action_ViewPagerFragment_to_FirstFragment"
+            app:destination="@id/SecondFragment" />
     </fragment>
 </navigation>
