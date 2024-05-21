@@ -6,12 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 import com.tp.recyclertree.AppLog
 import com.tp.recyclertree.R
 import com.tp.recyclertree.databinding.FragmentViewPagerSampleBinding
-import com.tp.recyclertree.databinding.ViewPagerTabItemBinding
+import kotlin.math.abs
 
 
 private const val TAG = "ViewPagerSampleFragment"
@@ -21,6 +19,7 @@ class ViewPagerSampleFragment : Fragment() {
     private lateinit var binding: FragmentViewPagerSampleBinding
 
     private var adapter: ImageViewPager2Adapter? = null
+    private var tabAdapter: TabViewPagerAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,74 +43,78 @@ class ViewPagerSampleFragment : Fragment() {
 
     private fun setSampleViewPager() {
 
-
         val listItems = arrayListOf(
             R.drawable.img_view_pager_sample_1,
             R.drawable.img_view_pager_sample_2,
             R.drawable.img_view_pager_sample_1,
             R.drawable.img_view_pager_sample_2
         )
+        /** Set sample view pager adapter **/
         adapter = ImageViewPager2Adapter(listItems)
-
-        /** Set tabs for viewpager in both visible and collapsed state tab layout **/
-        setUpTabsForViewPager(binding.tlViewPagerSample)
-
-
-        binding.vpSample.registerOnPageChangeCallback(onPageChangeCallback)
-    }
-
-
-    private fun setUpTabsForViewPager(tabLayout: TabLayout) {
-        tabLayout.setOnTouchListener { _v, _event -> true }
         binding.vpSample.adapter = adapter
-        TabLayoutMediator(
-            tabLayout,
-            binding.vpSample
-        ) { tab, position ->
-            val bindingTab = ViewPagerTabItemBinding.inflate(layoutInflater, tab.view, false)
-            tab.customView = bindingTab.root
-            val tabText = "TAB $position"
-            bindingTab.tvTitle.text = tabText
+        setPageChangeCallback(binding.vpSample, binding.viewPagerTab)
 
-        }.attach()
-
-        /** Set tabs margin after tabs value is set up **/
-        setTabsMargin(tabLayout)
+        /** Set tab view pager adapter**/
+        tabAdapter = TabViewPagerAdapter(listItems)
+        binding.viewPagerTab.adapter = tabAdapter
+        setItemDecorationTanViewPager(binding.viewPagerTab)
+        setPageChangeCallback(binding.viewPagerTab, binding.vpSample)
     }
 
-    /** Method to set up tab margin
-     * @Note Call this method after tabs has been added
-     * **/
-    private fun setTabsMargin(tabLayout: TabLayout) {
-        for (i in 0 until tabLayout.tabCount) {
-            val tab = (tabLayout.getChildAt(0) as ViewGroup).getChildAt(i)
-            val p = tab.layoutParams as ViewGroup.MarginLayoutParams
-            val marginEnd = resources.getDimension(R.dimen.margin_4)
-            var marginStart = 0
+    private fun setItemDecorationTanViewPager(viewPager2: ViewPager2) {
 
-            /** Add Extra margin to start of first item only , Design team requirement : TIMPR-16160 **/
-            if (i == 0) {
-                marginStart = resources.getDimension(R.dimen.margin_3).toInt()
+        // You need to retain one page on each side so that the next and previous items are visible
+        viewPager2.offscreenPageLimit = 1
+
+        // Add a PageTransformer that translates the next and previous items horizontally
+        // towards the center of the screen, which makes them visible
+        val nextItemVisiblePx = resources.getDimension(R.dimen.viewpager_next_item_visible)
+        val currentItemHorizontalMarginPx = resources.getDimension(R.dimen.viewpager_current_item_horizontal_margin)
+        val pageTranslationX = nextItemVisiblePx + currentItemHorizontalMarginPx
+        val pageTransformer = ViewPager2.PageTransformer { page: View, position: Float ->
+            page.translationX = -pageTranslationX * position
+
+            /** Item height scale changes not required , so commenting this code **/
+            // Next line scales the item's height. You can remove it if you don't want this effect
+//            page.scaleY = 1 - (0.25f * abs(position))
+
+            // If you want a fading effect uncomment the next line:
+            // page.alpha = 0.25f + (1 - abs(position))
+        }
+        viewPager2.setPageTransformer(pageTransformer)
+
+        context?.let {
+            // The ItemDecoration gives the current (centered) item horizontal margin so that
+            // it doesn't occupy the whole screen width. Without it the items overlap
+            val itemDecoration = HorizontalMarginItemDecoration(
+                it,
+                R.dimen.viewpager_current_item_horizontal_margin
+            )
+            viewPager2.addItemDecoration(itemDecoration)
+        }
+    }
+
+    /** Method to set callbacks for viewpager page change , And sync both view pager t change position with respect to other  **/
+    private fun setPageChangeCallback(currentViewPager: ViewPager2, targetViewPager: ViewPager2) {
+        val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+                AppLog.d(TAG, "onPageScrolled>>> $position  positionOffset   $positionOffset")
+
             }
-            p.setMargins(marginStart, 0, marginEnd.toInt(), 0)
-            tab.requestLayout()
+
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                AppLog.d(TAG, "onPageSelected >>> $position")
+                targetViewPager.currentItem = position
+            }
         }
+
+        currentViewPager.registerOnPageChangeCallback(onPageChangeCallback)
     }
 
-    private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
-        override fun onPageScrolled(
-            position: Int,
-            positionOffset: Float,
-            positionOffsetPixels: Int
-        ) {
-            super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-            AppLog.d(TAG, "onPageScrolled>>> $position  positionOffset   $positionOffset")
-
-        }
-
-        override fun onPageSelected(position: Int) {
-            super.onPageSelected(position)
-            AppLog.d(TAG, "onPageSelected >>> $position")
-        }
-    }
 }

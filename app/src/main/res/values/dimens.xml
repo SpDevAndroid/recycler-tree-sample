@@ -35,5 +35,9 @@
 
     <dimen name="lottie_size">70dp</dimen>
 
+    <!--    View pager sample dimensions -->
+    <dimen name="viewpager_next_item_visible">30dp</dimen>
+    <dimen name="viewpager_current_item_horizontal_margin">46dp</dimen>
+
 
 </resources>
