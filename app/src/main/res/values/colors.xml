@@ -17,4 +17,8 @@
     <color name="default_background_color">#FF131313</color>
     <color name="default_glow_color">#FF8CD1B0</color>
     <color name="default_stroke_color">#FF02B25E</color>
+    <color name="user_state_line_color">#FFDD5E5E</color>
+
+    <color name="transparent">#00FFFFFF</color>
+
 </resources>

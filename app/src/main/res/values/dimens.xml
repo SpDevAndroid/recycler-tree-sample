@@ -40,4 +40,8 @@
     <dimen name="viewpager_current_item_horizontal_margin">46dp</dimen>
 
 
+    <!-- timeline sample dimensions -->
+    <dimen name="timeline_item_axis_item_indicator_height">10dp</dimen>
+    <dimen name="graph_item_width">40dp</dimen>
+
 </resources>

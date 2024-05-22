@@ -50,4 +50,5 @@
     <string name="update">Update</string>
     <string name="view_pager_fragment">View Pager Fragment</string>
     <string name="recycler_tree_sample">Recycler Tree Sample</string>
+    <string name="timeline_fragment">Timeline Fragment</string>
 </resources>

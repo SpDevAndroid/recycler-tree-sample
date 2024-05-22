@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/ViewPagerFragment">
+    app:startDestination="@id/TimeLineFragment">
 
     <fragment
         android:id="@+id/FirstFragment"
@@ -34,6 +34,17 @@
 
         <action
             android:id="@+id/action_ViewPagerFragment_to_FirstFragment"
-            app:destination="@id/SecondFragment" />
+            app:destination="@id/FirstFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/TimeLineFragment"
+        android:name="com.tp.recyclertree.timelineSample.TimelineFragment"
+        android:label="@string/timeline_fragment"
+        tools:layout="@layout/fragment_view_pager_sample">
+
+        <action
+            android:id="@+id/action_TimeLineFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
     </fragment>
 </navigation>
