@@ -44,8 +44,10 @@ class TimelineFragment : Fragment() {
         val listItems = arrayListOf(
             20, 40, 60, 80, 100,
             120, 140, 160, 180, 200,
-            220, 240, 260, 280, 300
+            220, 240, 260, 280, 300,
+            320, 340, 360, 380, 400
         )
+        val listIOfferValues = arrayListOf(85, 300)
 
         context?.let {
             binding.rvGraph.layoutManager =
@@ -62,7 +64,7 @@ class TimelineFragment : Fragment() {
                 LinearLayoutManager(it, LinearLayoutManager.HORIZONTAL, false)
 
             /** Set sample view pager adapter **/
-            val timelineOfferAdapter = TimelineOfferDataAdapter(listItems, userStateValue = 220)
+            val timelineOfferAdapter = TimelineOfferDataAdapter(listItems, userStateValue = 220, listOfferItemValues = listIOfferValues)
 
             binding.rvTimelineData.adapter = timelineOfferAdapter
 

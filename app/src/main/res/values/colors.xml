@@ -18,6 +18,8 @@
     <color name="default_glow_color">#FF8CD1B0</color>
     <color name="default_stroke_color">#FF02B25E</color>
     <color name="user_state_line_color">#FFDD5E5E</color>
+    <color name="timeline_offer_line_color">#FFAA7D4B</color>
+    <color name="timeline_offer_bg_color">#0A0A0A</color>
 
     <color name="transparent">#00FFFFFF</color>
 

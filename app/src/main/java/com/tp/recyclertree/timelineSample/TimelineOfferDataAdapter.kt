@@ -10,38 +10,57 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tp.recyclertree.AppLog
 import com.tp.recyclertree.R
 import com.tp.recyclertree.databinding.TimelineExactIndicatorItemBinding
-import com.tp.recyclertree.databinding.TimelineGraphIndicatorItemBinding
+import com.tp.recyclertree.databinding.TimelineExactOfferItemBinding
 import com.tp.recyclertree.databinding.TimelineGraphIndicatorNormalItemBinding
 import com.tp.recyclertree.databinding.TimelineMidIndicatorItemBinding
+import com.tp.recyclertree.databinding.TimelineMidOfferItemBinding
 
 private const val TAG = "TimelineOfferDataAdapter"
 
 class TimelineOfferDataAdapter(
-    private val listItems: ArrayList<Int>, private val userStateValue: Int
+    private val listItems: ArrayList<Int>,
+    private val userStateValue: Int,
+    private val listOfferItemValues: ArrayList<Int>,
 ) : RecyclerView.Adapter<TimelineOfferDataAdapter.ItemViewHolder>() {
 
     enum class ItemViewType(val viewTypeId: Int) {
-        EXACT(1),
-        MID(2),
-        NORMAL(3)
+        USER_STATUS_EXACT(1),
+        USER_STATUS_MID(2),
+        OFFER_VIEW_MID(3),
+        OFFER_VIEW_EXACT(4),
+        NORMAL(5)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         Log.d(TAG, "onCreateViewHolder viewType >> $viewType")
 
         return when (viewType) {
-            ItemViewType.MID.viewTypeId -> {
+            ItemViewType.USER_STATUS_MID.viewTypeId -> {
                 val binding = TimelineMidIndicatorItemBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
                 )
-                MidItemViewHolder(binding)
+                UserStatusMidValueViewHolder(binding)
             }
 
-            ItemViewType.EXACT.viewTypeId -> {
+            ItemViewType.USER_STATUS_EXACT.viewTypeId -> {
                 val binding = TimelineExactIndicatorItemBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
                 )
-                ExactValueItemViewHolder(binding)
+                UserStatusExactValueViewHolder(binding)
+            }
+
+            ItemViewType.OFFER_VIEW_MID.viewTypeId -> {
+                val binding = TimelineMidOfferItemBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+                OfferViewMidViewHolder(binding)
+            }
+
+            ItemViewType.OFFER_VIEW_EXACT.viewTypeId -> {
+                val binding = TimelineExactOfferItemBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+                OfferViewExactViewHolder(binding)
             }
 
             else -> {
@@ -70,14 +89,36 @@ class TimelineOfferDataAdapter(
         if ((position - 1) >= 0) {
             prevVal = listItems[position - 1]
         }
-        AppLog.d(TAG, "getItemViewType() currentVal : $currentVal prevVal $prevVal userStateValue : $userStateValue")
+        AppLog.d(
+            TAG,
+            "getItemViewType() currentVal : $currentVal prevVal $prevVal userStateValue : $userStateValue"
+        )
         return when {
-            (userStateValue in (prevVal + 1) until currentVal) -> ItemViewType.MID.viewTypeId
-            userStateValue == currentVal -> ItemViewType.EXACT.viewTypeId
+            (userStateValue in (prevVal + 1) until currentVal) -> ItemViewType.USER_STATUS_MID.viewTypeId
+            userStateValue == currentVal -> ItemViewType.USER_STATUS_EXACT.viewTypeId
+            getIfOfferValueInGraphItemMid(currentVal, prevVal) != null -> ItemViewType.OFFER_VIEW_MID.viewTypeId
+            getIfOfferValueInGraphExact(currentVal) != null -> ItemViewType.OFFER_VIEW_EXACT.viewTypeId
             else -> ItemViewType.NORMAL.viewTypeId
         }
     }
 
+    private fun getIfOfferValueInGraphItemMid(currentGraphValue : Int , previousGraphValue : Int) : Int? {
+        for(offerValue in listOfferItemValues) {
+            if(offerValue in (previousGraphValue + 1) until currentGraphValue) {
+                return offerValue
+            }
+        }
+        return null
+    }
+
+    private fun getIfOfferValueInGraphExact(currentGraphValue : Int): Int? {
+        for(offerValue in listOfferItemValues) {
+            if(offerValue == currentGraphValue) {
+                return offerValue
+            }
+        }
+        return null
+    }
 
     abstract inner class ItemViewHolder(
         private val view: View
@@ -105,7 +146,7 @@ class TimelineOfferDataAdapter(
         }
     }
 
-    inner class MidItemViewHolder(
+    inner class UserStatusMidValueViewHolder(
         private val binding: TimelineMidIndicatorItemBinding
     ) : ItemViewHolder(binding.root) {
         override fun onBind(position: Int) {
@@ -115,7 +156,7 @@ class TimelineOfferDataAdapter(
         }
     }
 
-    inner class ExactValueItemViewHolder(
+    inner class UserStatusExactValueViewHolder(
         private val binding: TimelineExactIndicatorItemBinding
     ) : ItemViewHolder(binding.root) {
         override fun onBind(position: Int) {
@@ -131,6 +172,30 @@ class TimelineOfferDataAdapter(
         override fun onBind(position: Int) {
             val currentValue = listItems[position]
             setAxisValue(binding.tvAxisVal, binding.ivAxis, currentValue)
+        }
+    }
+
+    inner class OfferViewMidViewHolder(
+        private val binding: TimelineMidOfferItemBinding
+    ) : ItemViewHolder(binding.root) {
+        override fun onBind(position: Int) {
+            val currentValue = listItems[position]
+            var prevVal = Int.MIN_VALUE
+            if ((position - 1) >= 0) {
+                prevVal = listItems[position - 1]
+            }
+            setAxisValue(binding.tvAxisVal, binding.ivAxis, currentValue)
+            binding.tvCurrentUserValue.text = "${getIfOfferValueInGraphItemMid(currentValue, prevVal)}k"
+        }
+    }
+
+    inner class OfferViewExactViewHolder(
+        private val binding: TimelineExactOfferItemBinding
+    ) : ItemViewHolder(binding.root) {
+        override fun onBind(position: Int) {
+            val currentValue = listItems[position]
+            setAxisValue(binding.tvAxisVal, binding.ivAxis, currentValue)
+            binding.tvAxisVal.visibility = View.VISIBLE
         }
     }
 
