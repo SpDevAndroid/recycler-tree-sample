@@ -46,5 +46,16 @@
         app:layout_constraintEnd_toEndOf="@id/cl_axis_line"
         app:layout_constraintStart_toStartOf="@id/cl_axis_line"
         tools:text="100k" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_current_user_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:includeFontPadding="false"
+        android:textColor="@color/tp_cta_bg_color_2"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/userStatusView"
+        app:layout_constraintStart_toStartOf="@id/userStatusView"
+        tools:text="100k" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

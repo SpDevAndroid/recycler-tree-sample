@@ -111,6 +111,7 @@ class TimelineOfferDataAdapter(
         override fun onBind(position: Int) {
             val currentValue = listItems[position]
             setAxisValue(binding.tvAxisVal, binding.ivAxis, currentValue)
+            binding.tvCurrentUserValue.text = "${userStateValue}k"
         }
     }
 
@@ -120,6 +121,7 @@ class TimelineOfferDataAdapter(
         override fun onBind(position: Int) {
             val currentValue = listItems[position]
             setAxisValue(binding.tvAxisVal, binding.ivAxis, currentValue)
+            binding.tvAxisVal.visibility = View.VISIBLE
         }
     }
 
