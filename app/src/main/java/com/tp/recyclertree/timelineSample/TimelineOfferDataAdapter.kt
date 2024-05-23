@@ -127,24 +127,23 @@ class TimelineOfferDataAdapter(
 
         fun setAxisValue(
             appCompatTextView: AppCompatTextView,
-            imageView: AppCompatImageView,
+            ivAxisSmall: AppCompatImageView,
+            ivAxisBig: AppCompatImageView,
             currentValue: Int,
             position: Int
         ) {
             AppLog.d(TAG , "setAxisValue() absoluteAdapterPosition : $absoluteAdapterPosition currentValue : $currentValue")
             appCompatTextView.text = "${currentValue}k"
 
-            appCompatTextView.visibility = if (currentValue % 100 == 0) {
-//            appCompatTextView.visibility = if (position % 2 == 0) {
-                imageView.layoutParams.height = (appCompatTextView.context.resources.getDimension(
-                    R.dimen.timeline_item_axis_item_indicator_height
-                ).toInt() * 2)
+//            appCompatTextView.visibility = if (currentValue % 100 == 0) {
+            appCompatTextView.visibility = if (position % 2 == 0) {
+                ivAxisSmall.visibility = View.GONE
+                ivAxisBig.visibility = View.VISIBLE
 
                 View.VISIBLE
             } else {
-                imageView.layoutParams.height = appCompatTextView.context.resources.getDimension(
-                    R.dimen.timeline_item_axis_item_indicator_height
-                ).toInt()
+                ivAxisSmall.visibility = View.VISIBLE
+                ivAxisBig.visibility = View.GONE
                 View.GONE
             }
         }
@@ -155,7 +154,13 @@ class TimelineOfferDataAdapter(
     ) : ItemViewHolder(binding.root) {
         override fun onBind(position: Int) {
             val currentValue = listItems[position]
-            setAxisValue(binding.tvAxisVal, binding.ivAxis, currentValue, position)
+            setAxisValue(
+                binding.tvAxisVal,
+                binding.clAxisLine.ivAxis,
+                binding.clAxisLine.ivAxisBig,
+                currentValue,
+                position
+            )
             binding.tvCurrentUserValue.text = "${userStateValue}k"
         }
     }
@@ -165,7 +170,13 @@ class TimelineOfferDataAdapter(
     ) : ItemViewHolder(binding.root) {
         override fun onBind(position: Int) {
             val currentValue = listItems[position]
-            setAxisValue(binding.tvAxisVal, binding.ivAxis, currentValue, position)
+            setAxisValue(
+                binding.tvAxisVal,
+                binding.clAxisLine.ivAxis,
+                binding.clAxisLine.ivAxisBig,
+                currentValue,
+                position
+            )
             binding.tvAxisVal.visibility = View.VISIBLE
         }
     }
@@ -175,7 +186,13 @@ class TimelineOfferDataAdapter(
     ) : ItemViewHolder(binding.root) {
         override fun onBind(position: Int) {
             val currentValue = listItems[position]
-            setAxisValue(binding.tvAxisVal, binding.ivAxis, currentValue, position)
+            setAxisValue(
+                binding.tvAxisVal,
+                binding.clAxisLine.ivAxis,
+                binding.clAxisLine.ivAxisBig,
+                currentValue,
+                position
+            )
         }
     }
 
@@ -188,7 +205,13 @@ class TimelineOfferDataAdapter(
             if ((position - 1) >= 0) {
                 prevVal = listItems[position - 1]
             }
-            setAxisValue(binding.tvAxisVal, binding.ivAxis, currentValue, position)
+            setAxisValue(
+                binding.tvAxisVal,
+                binding.clAxisLine.ivAxis,
+                binding.clAxisLine.ivAxisBig,
+                currentValue,
+                position
+            )
             binding.tvCurrentUserValue.text = "${getIfOfferValueInGraphItemMid(currentValue, prevVal)}k"
         }
     }
@@ -198,7 +221,7 @@ class TimelineOfferDataAdapter(
     ) : ItemViewHolder(binding.root) {
         override fun onBind(position: Int) {
             val currentValue = listItems[position]
-            setAxisValue(binding.tvAxisVal, binding.ivAxis, currentValue, position)
+            setAxisValue(binding.tvAxisVal, binding.clAxisLine.ivAxis, binding.clAxisLine.ivAxisBig, currentValue, position)
             binding.tvAxisVal.visibility = View.VISIBLE
         }
     }
