@@ -67,7 +67,7 @@ class TimelineFragment : Fragment() {
                 LinearLayoutManager(it, LinearLayoutManager.HORIZONTAL, false)
 
             /** Set sample view pager adapter **/
-            val timelineOfferAdapter = TimelineOfferDataAdapter(listItems, userStateValue = 220, listOfferItemValues = listIOfferValues)
+            val timelineOfferAdapter = TimelineOfferDataAdapter(listItems, userStateValue = 230, listOfferItemValues = listIOfferValues)
 
             binding.rvTimelineData.adapter = timelineOfferAdapter
 
