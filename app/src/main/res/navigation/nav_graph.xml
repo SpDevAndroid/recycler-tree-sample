@@ -41,10 +41,10 @@
         android:id="@+id/TimeLineFragment"
         android:name="com.tp.recyclertree.timelineSample.TimelineFragment"
         android:label="@string/timeline_fragment"
-        tools:layout="@layout/fragment_view_pager_sample">
+        tools:layout="@layout/fragment_timeline">
 
         <action
-            android:id="@+id/action_TimeLineFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_TimeLineFragment_to_ViewPagerFragment"
+            app:destination="@id/ViewPagerFragment" />
     </fragment>
 </navigation>
