@@ -23,6 +23,40 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="@dimen/margin_4"
         app:layout_constraintStart_toEndOf="@+id/timelineOfferView"/>
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/cl_axis_line">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="2dp"
+            android:layout_height="10dp"
+            android:background="@drawable/active_icon_cta_bg_1"
+            android:backgroundTint="@color/tp_cta_bg_color_2"
+            android:layout_marginStart="@dimen/margin_3" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="2dp"
+            android:layout_height="10dp"
+            android:background="@drawable/active_icon_cta_bg_1"
+            android:backgroundTint="@color/tp_cta_bg_color_2"
+            android:layout_marginStart="@dimen/margin_5"
+            />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="2dp"
+            android:layout_height="10dp"
+            android:background="@drawable/active_icon_cta_bg_1"
+            android:backgroundTint="@color/tp_cta_bg_color_2"
+            android:layout_marginStart="@dimen/margin_11"
+            />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="2dp"
+            android:layout_height="10dp"
+            android:background="@drawable/active_icon_cta_bg_1"
+            android:backgroundTint="@color/tp_cta_bg_color_2"
+            android:layout_marginStart="@dimen/margin_5"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_axis_val"
