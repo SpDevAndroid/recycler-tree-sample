@@ -16,7 +16,7 @@
         android:backgroundTint="@color/user_state_line_color"
         android:gravity="center"
         android:includeFontPadding="false"
-        android:paddingHorizontal="@dimen/margin_1"
+        android:paddingHorizontal="@dimen/margin_2"
         android:text="₹20,255"
         android:textColor="@color/white"
         android:textSize="14sp"
