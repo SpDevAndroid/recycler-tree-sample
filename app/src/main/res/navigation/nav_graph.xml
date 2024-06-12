@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/TimeLineFragment">
+    app:startDestination="@id/MileStoneFragment">
 
     <fragment
         android:id="@+id/FirstFragment"
@@ -45,6 +45,16 @@
 
         <action
             android:id="@+id/action_TimeLineFragment_to_ViewPagerFragment"
+            app:destination="@id/ViewPagerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/MileStoneFragment"
+        android:name="com.tp.recyclertree.milestonesample.MilestoneFragment"
+        android:label="@string/milestone_fragment"
+        tools:layout="@layout/fragment_timeline">
+
+        <action
+            android:id="@+id/action_MileStoneFragment_to_ViewPagerFragment"
             app:destination="@id/ViewPagerFragment" />
     </fragment>
 </navigation>
