@@ -54,16 +54,4 @@
         android:background="@drawable/active_icon_cta_bg_1"
         android:backgroundTint="@color/user_state_line_color" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_axis_val"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:includeFontPadding="false"
-        android:textColor="@color/tp_cta_bg_color_2"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="100k" />
-
 </androidx.appcompat.widget.LinearLayoutCompat>

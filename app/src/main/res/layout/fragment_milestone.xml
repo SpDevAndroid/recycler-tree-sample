@@ -36,14 +36,30 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/tvCtaPocPager"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/et_user_amount"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_1"
+        android:digits="1234567890"
+        android:hint="Update User Current Amount Here"
+        android:inputType="number"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_cta"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_cta"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
         android:layout_marginBottom="@dimen/margin_5"
         android:background="@drawable/active_icon_cta_bg_1"
-        android:padding="@dimen/margin_3"
-        android:text="@string/view_pager_poc"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="@dimen/margin_3"
+        android:text="@string/update"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
