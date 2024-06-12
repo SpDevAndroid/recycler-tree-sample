@@ -9,8 +9,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tp.recyclertree.R
 import com.tp.recyclertree.databinding.FragmentMilestoneBinding
-import com.tp.recyclertree.timelineSample.TimelineGraphAdapter
-import com.tp.recyclertree.timelineSample.TimelineOfferDataAdapter
 
 class MilestoneFragment : Fragment() {
 
@@ -29,7 +27,7 @@ class MilestoneFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setSampleViewPager()
         binding.tvCtaPocPager.setOnClickListener {
-            findNavController().navigate(R.id.action_TimeLineFragment_to_ViewPagerFragment)
+            findNavController().navigate(R.id.action_MileStoneFragment_to_ViewPagerFragment)
         }
     }
 
@@ -41,13 +39,7 @@ class MilestoneFragment : Fragment() {
 
     private fun setSampleViewPager() {
 
-        val listItems = arrayListOf(
-            20, 40, 60, 80, 100,
-            120, 140, 160, 180, 200,
-            220, 240, 260, 280, 300,
-            320, 340, 360, 380, 400
-        )
-        val listIOfferValues = arrayListOf(85, 300)
+        val listIOfferValues = arrayListOf(85, 300, 500, 800)
 
         context?.let {
 
@@ -56,13 +48,12 @@ class MilestoneFragment : Fragment() {
                 LinearLayoutManager(it, LinearLayoutManager.HORIZONTAL, false)
 
             /** Set sample view pager adapter **/
-            val timelineOfferAdapter = TimelineOfferDataAdapter(
-                listItems,
-                userStateValue = 230,
-                listOfferItemValues = listIOfferValues
+            val milestoneDataAdapter = MilestoneDataAdapter(
+                listIOfferValues,
+                userStateValue = 200
             )
 
-            binding.rvMilestone.adapter = timelineOfferAdapter
+            binding.rvMilestone.adapter = milestoneDataAdapter
         }
     }
 
