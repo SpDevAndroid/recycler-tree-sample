@@ -108,7 +108,7 @@ class MilestoneDataAdapter(
                 var previousMidValueToCompare = Int.MIN_VALUE
                 if ((position - 1) >= 0) {
                     val previousMilestone = listItems[position - 1]
-                    previousMidValueToCompare = (previousMilestone.amt + currentValue) / 2
+                    previousMidValueToCompare = ((previousMilestone.amt + currentValue) / ( 2 + (currentMilestoneItem.unitSpace - 1)))
                 }
 
                 var nextMidValueToCompare = Int.MAX_VALUE
