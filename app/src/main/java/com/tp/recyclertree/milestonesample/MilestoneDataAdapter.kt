@@ -86,21 +86,18 @@ class MilestoneDataAdapter(
 
             val oneUnitMargin = binding.root.context.resources.getDimension(R.dimen.margin_8).toInt()
 
+            /** Set Margin start for offer item, according to unit spaces between 2 items **/
             var marginStartOffer = binding.root.context.resources.getDimension(R.dimen.margin_3).toInt()
-            AppLog.d(TAG, "MilestoneDataAdapter.onBind marginStartOffer : $marginStartOffer currentMilestoneItem : $currentMilestoneItem")
             if(currentMilestoneItem.unitSpace > 1) {
-                marginStartOffer = oneUnitMargin * currentMilestoneItem.unitSpace
+                marginStartOffer = oneUnitMargin * (currentMilestoneItem.unitSpace + 1)
             }
-
-            /** Set  Margin start for offers **/
-            val marginLayoutParams = binding.timelineOfferView.root.layoutParams as MarginLayoutParams
-            marginLayoutParams.marginStart = marginStartOffer
+            AppLog.d(TAG, "MilestoneDataAdapter.onBind marginStartOffer : $marginStartOffer currentMilestoneItem : $currentMilestoneItem")
+            (binding.timelineOfferView.root.layoutParams as MarginLayoutParams).marginStart = marginStartOffer
 
 
             if (currentValue == userStateValue) {
                 binding.userStatusView.root.visibility = View.VISIBLE
-                val marginLayoutParams =
-                    binding.userStatusView.root.layoutParams as MarginLayoutParams
+                val marginLayoutParams = binding.userStatusView.root.layoutParams as MarginLayoutParams
                 marginLayoutParams.marginStart = 0
                 marginLayoutParams.marginEnd = 0
             } else {
@@ -108,36 +105,37 @@ class MilestoneDataAdapter(
                 var previousMidValueToCompare = Int.MIN_VALUE
                 if ((position - 1) >= 0) {
                     val previousMilestone = listItems[position - 1]
-                    previousMidValueToCompare = ((previousMilestone.amt + currentValue) / ( 2 + (currentMilestoneItem.unitSpace - 1)))
+                    previousMidValueToCompare = previousMilestone.amt + ((currentValue - previousMilestone.amt) / (currentMilestoneItem.unitSpace + 1))
                 }
 
                 var nextMidValueToCompare = Int.MAX_VALUE
                 if ((position + 1) < listItems.size) {
                     val nextMilestone = listItems[position + 1]
-                    nextMidValueToCompare = (nextMilestone.amt + currentValue) / ( 2 + (nextMilestone.unitSpace - 1))
+                    nextMidValueToCompare = currentValue + ((nextMilestone.amt - currentValue) / (nextMilestone.unitSpace + 1))
                 }
 
                 AppLog.d(TAG, "MilestoneDataAdapter.onBind previousMidValueToCompare $previousMidValueToCompare , currentValue : $currentValue , nextMidValueToCompare : $nextMidValueToCompare")
                 when (userStateValue) {
-                    in previousMidValueToCompare until currentValue -> {
+                    in (previousMidValueToCompare + 1)  until currentValue -> {
                         binding.userStatusView.root.visibility = View.VISIBLE
                         var unitCount = 1.5
+                        var additionalMargin = marginStartOffer / 2
                         if ((userStateValue - previousMidValueToCompare) < (currentValue - userStateValue)) {
                             unitCount = 3.0
+                            additionalMargin = marginStartOffer
                         }
-                        val marginLayoutParams = binding.userStatusView.root.layoutParams as MarginLayoutParams
-                        marginLayoutParams.marginEnd = ((oneUnitMargin * unitCount).toInt() + marginStartOffer)
+
+                        (binding.userStatusView.root.layoutParams as MarginLayoutParams).marginEnd = ((oneUnitMargin * unitCount).toInt() + additionalMargin)
                     }
 
-                    in currentValue until nextMidValueToCompare -> {
+                    in currentValue  until (nextMidValueToCompare + 1) -> {
                         binding.userStatusView.root.visibility = View.VISIBLE
                         var unitCount = 1.5
                         if ((nextMidValueToCompare - userStateValue) < (userStateValue - currentValue)) {
                             unitCount = 3.0
                         }
-                        val marginLayoutParams =
-                            binding.userStatusView.root.layoutParams as MarginLayoutParams
-                        marginLayoutParams.marginStart = (oneUnitMargin * unitCount).toInt()
+
+                        (binding.userStatusView.root.layoutParams as MarginLayoutParams).marginStart = (oneUnitMargin * unitCount).toInt()
 
                     }
 
