@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.tp.recyclertree.AppLog
 import com.tp.recyclertree.R
@@ -79,6 +80,12 @@ class MilestoneDataAdapter(
         private val binding: LayoutMilestoneOfferItemBinding
     ) : ItemViewHolder(binding.root) {
         override fun onBind(position: Int) {
+            var itemBgColor = ContextCompat.getColor(binding.root.context, R.color.purple_200)
+            if(position%2 == 0) {
+                itemBgColor = ContextCompat.getColor(binding.root.context, R.color.default_glow_color)
+            }
+            binding.root.setBackgroundColor(itemBgColor)
+
             val currentMilestoneItem = listItems[position]
             val currentValue = currentMilestoneItem.amt
             binding.tvVal.text = currentMilestoneItem.label
@@ -89,7 +96,7 @@ class MilestoneDataAdapter(
             /** Set Margin start for offer item, according to unit spaces between 2 items **/
             var marginStartOffer = binding.root.context.resources.getDimension(R.dimen.margin_3).toInt()
             if(currentMilestoneItem.unitSpace > 1) {
-                marginStartOffer = oneUnitMargin * (currentMilestoneItem.unitSpace + 1)
+                marginStartOffer = oneUnitMargin * currentMilestoneItem.unitSpace
             }
             AppLog.d(TAG, "MilestoneDataAdapter.onBind marginStartOffer : $marginStartOffer currentMilestoneItem : $currentMilestoneItem")
             (binding.timelineOfferView.root.layoutParams as MarginLayoutParams).marginStart = marginStartOffer
