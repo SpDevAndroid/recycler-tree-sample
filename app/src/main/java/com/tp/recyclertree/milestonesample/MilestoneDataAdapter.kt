@@ -126,7 +126,7 @@ class MilestoneDataAdapter(
                     }
 
                     else -> {
-                        binding.userStatusView.root.visibility = View.INVISIBLE
+                        binding.userStatusView.root.visibility = View.GONE
                     }
                 }
             }

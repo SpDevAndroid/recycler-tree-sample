@@ -76,7 +76,7 @@ class MilestoneFragment : Fragment() {
                 TAG,
                 "setMilestoneAdapter offerItem.amt : ${offerItem.amt} prevVal : $prevVal offerItem.unitSpace : ${offerItem.unitSpace}"
             )
-            if (offerItem.unitSpace > 1) {
+            if (offerItem.unitSpace > 0) {
                 val amtUnit = (offerItem.amt - prevVal) / (offerItem.unitSpace + 1)
                 AppLog.d(TAG, "setMilestoneAdapter amtUnit : $amtUnit")
                 for (i in 0 until offerItem.unitSpace) {
