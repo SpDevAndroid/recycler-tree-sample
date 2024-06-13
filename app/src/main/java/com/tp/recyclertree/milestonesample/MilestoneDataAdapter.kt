@@ -93,13 +93,13 @@ class MilestoneDataAdapter(
                 var previousMidValueToCompare = Int.MIN_VALUE
                 if ((position - 1) >= 0) {
                     val previousMilestone = listItems[position - 1]
-                    previousMidValueToCompare = previousMilestone.amt + ((currentValue - previousMilestone.amt) / (currentMilestoneItem.unitSpace + 1))
+                    previousMidValueToCompare = previousMilestone.amt + (currentValue - previousMilestone.amt) / 2
                 }
 
                 var nextMidValueToCompare = Int.MAX_VALUE
                 if ((position + 1) < listItems.size) {
                     val nextMilestone = listItems[position + 1]
-                    nextMidValueToCompare = currentValue + ((nextMilestone.amt - currentValue) / (nextMilestone.unitSpace + 1))
+                    nextMidValueToCompare = currentValue + (nextMilestone.amt - currentValue) / 2
                 }
 
                 AppLog.d(TAG, "MilestoneDataAdapter.onBind previousMidValueToCompare $previousMidValueToCompare , currentValue : $currentValue , nextMidValueToCompare : $nextMidValueToCompare")
@@ -156,13 +156,13 @@ class MilestoneDataAdapter(
                 var previousMidValueToCompare = Int.MIN_VALUE
                 if ((position - 1) >= 0) {
                     val previousMilestone = listItems[position - 1]
-                    previousMidValueToCompare = previousMilestone.amt + ((currentValue - previousMilestone.amt) / (currentMilestoneItem.unitSpace + 1))
+                    previousMidValueToCompare = previousMilestone.amt + (currentValue - previousMilestone.amt) / 2
                 }
 
                 var nextMidValueToCompare = Int.MAX_VALUE
                 if ((position + 1) < listItems.size) {
                     val nextMilestone = listItems[position + 1]
-                    nextMidValueToCompare = currentValue + ((nextMilestone.amt - currentValue) / (nextMilestone.unitSpace + 1))
+                    nextMidValueToCompare = currentValue + (nextMilestone.amt - currentValue) / 2
                 }
 
                 AppLog.d(TAG, "MilestoneDataAdapter.onBind previousMidValueToCompare $previousMidValueToCompare , currentValue : $currentValue , nextMidValueToCompare : $nextMidValueToCompare")
