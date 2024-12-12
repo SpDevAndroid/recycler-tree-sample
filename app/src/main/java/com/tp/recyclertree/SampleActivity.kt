@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
 import androidx.activity.enableEdgeToEdge
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -15,25 +14,35 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.tp.recyclertree.databinding.ActivityRecyclerTreeSampleBinding
 
-class RecyclerTreeSampleActivity : AppCompatActivity() {
+class SampleActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityRecyclerTreeSampleBinding
+    private val isFullScreenEnabled = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         binding = ActivityRecyclerTreeSampleBinding.inflate(layoutInflater)
+
+        /** Make sure before setContentView()**/
+        if(isFullScreenEnabled) {
+            enableEdgeToEdge()
+        }
         setContentView(binding.root)
 
-        bottomNavigationOverlapHandling(binding.root)
+        /** Make sure after setContentView() **/
+        if(isFullScreenEnabled) {
+            bottomNavigationOverlapHandling(binding.root)
+        }
 
         setSupportActionBar(binding.toolbar)
 
-        val navController = findNavController(R.id.nav_host_fragment_content_recycler_tree_sample)
+        val navController = findNavController(R.id.nav_host_fragment_content)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
+
+
 
     /**
      *  Making the Navigation system bar not overlapping with the activity
@@ -65,7 +74,7 @@ class RecyclerTreeSampleActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_recycler_tree_sample)
+        val navController = findNavController(R.id.nav_host_fragment_content)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
     }
