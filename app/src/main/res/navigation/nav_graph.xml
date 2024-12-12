@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/EdgeToEdgeFragment"
-        android:name="com.tp.recyclertree.EdgeToEdgeContentFragment"
+        android:name="com.tp.recyclertree.edgeToEdgeSample.EdgeToEdgeContentFragment"
         android:label="@string/edger_to_edge_fragment_label"
         tools:layout="@layout/fragment_edge_to_edge_content">
     </fragment>
