@@ -6,9 +6,6 @@ class CreditCardBill {
     var billAmount: String? = null
     var minBillAmount: String? = null
     var dueDate: String? = null
-    var lastPaymentDate: String? = null
-    var availableCredit: String? = null
-    var minPayment: String? = null
 
     override fun toString(): String {
         return "CreditCardBill{" +
@@ -16,9 +13,6 @@ class CreditCardBill {
                 "billAmount='" + billAmount + '\'' +
                 "minAmount='" + minBillAmount + '\'' +
                 ", dueDate='" + dueDate + '\'' +
-                ", lastPaymentDate='" + lastPaymentDate + '\'' +
-                ", availableCredit='" + availableCredit + '\'' +
-                ", minPayment='" + minPayment + '\'' +
                 '}'
     }
 }

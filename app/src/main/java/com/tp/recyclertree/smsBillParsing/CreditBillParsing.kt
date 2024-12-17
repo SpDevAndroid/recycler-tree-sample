@@ -15,13 +15,17 @@ object CreditBillParsing {
 
         // Regular expression patterns to extract relevant details
         val cardPattern = arrayListOf(
-            Pattern.compile("Card(?:.?)(\\\\+\\\\d{4}|XX\\\\d{4})", Pattern.CASE_INSENSITIVE),
-            Pattern.compile("Card no.(?:.?)(\\\\+\\\\d{4}|XX\\\\d{4})", Pattern.CASE_INSENSITIVE),
-            Pattern.compile("Card ending(?:.?)(\\\\+\\\\d{4}|XX\\\\d{4})", Pattern.CASE_INSENSITIVE),
-            Pattern.compile("card ending with (?:.?)(\\\\+\\\\d{4}|XX\\\\d{4})", Pattern.CASE_INSENSITIVE),
+            Pattern.compile("Card(?:.?)(\\+\\d{4}|XX\\d{4})", Pattern.CASE_INSENSITIVE),
+            Pattern.compile("Card no.(?:.?)(\\+\\d{4}|XX\\d{4})", Pattern.CASE_INSENSITIVE),
+            Pattern.compile("Card ending(?:.?)(\\+\\d{4}|XX\\d{4})", Pattern.CASE_INSENSITIVE),
+            Pattern.compile("card ending with (?:.?)(\\+\\d{4}|XX\\d{4})", Pattern.CASE_INSENSITIVE),
+            Pattern.compile("Card\\s*(XX\\d{4})", Pattern.CASE_INSENSITIVE), // HDFC, ICICI
         )
 
         val amountPattern = arrayListOf(
+            Pattern.compile("Total due amt: Rs.\\s*([\\d,]+\\.\\d{2})", Pattern.CASE_INSENSITIVE), // HDFC BANK TESTED, working fine
+
+
             Pattern.compile("Total of Rs\\s*([\\d,]+\\.\\d{2})", Pattern.CASE_INSENSITIVE), // ICICI
             Pattern.compile("Total due amt:\\s*([\\d,]+\\.\\d{2})", Pattern.CASE_INSENSITIVE), // HDFC
             Pattern.compile("Total amount due: INR Dr.\\s*([\\d,]+\\.\\d{2})", Pattern.CASE_INSENSITIVE), // Axis Bank
@@ -37,29 +41,20 @@ object CreditBillParsing {
         )
 
         val minAmountPattern = arrayListOf(
-            Pattern.compile("Minimum(?: amt)?(?: due)?:?\\\\s*(?:Rs\\\\.|INR|Dr\\\\.?)?\\\\s*([\\\\d,.]+)" , Pattern.CASE_INSENSITIVE)
+            Pattern.compile("Minimum(?: amt)?(?: due)?:?\\s*(?:Rs\\.|INR|Dr\\.?)?\\s*([\\d,.]+)" , Pattern.CASE_INSENSITIVE),
+            Pattern.compile("Minimum Payment:\\s*([\\d,]+\\.\\d{2})" , Pattern.CASE_INSENSITIVE)
         )
 
         val dueDatePattern = arrayListOf(
             Pattern.compile("Due date:\\s*(\\d{1,2}/\\d{1,2}/\\d{4})" , Pattern.CASE_INSENSITIVE),
             Pattern.compile("Due by:\\s*(\\d{1,2}/\\d{1,2}/\\d{4})" , Pattern.CASE_INSENSITIVE),
-            Pattern.compile("Due(?: by| date)?:?\\\\s*(\\\\d{2}[-/][A-Z]{3}[-/]\\\\d{2,4}|\\\\d{2}[-/][A-Za-z]+[-/]\\\\d{2,4})" , Pattern.CASE_INSENSITIVE),
+            Pattern.compile("Due(?: by| date)?:?\\s*(\\d{2}[-/][A-Z]{3}[-/]\\d{2,4}|\\d{2}[-/][A-Za-z]+[-/]\\d{2,4})" , Pattern.CASE_INSENSITIVE),
             Pattern.compile("(\\d{1,2}[a-z]{2}\\s+[a-zA-Z]+\\s+\\d{4})" , Pattern.CASE_INSENSITIVE),
             Pattern.compile("Date:\\s*(\\d{4}-\\d{2}-\\d{2})" , Pattern.CASE_INSENSITIVE),
-            Pattern.compile("Due date:\\s*(\\d{4}-\\d{2}-\\d{2})" , Pattern.CASE_INSENSITIVE),
-            Pattern.compile("Due by:\\s*(\\d{4}-\\d{2}-\\d{2})" , Pattern.CASE_INSENSITIVE),
-            Pattern.compile("Due(?: by| date)?:?\\\\s*(\\d{4}-\\d{2}-\\d{2})" , Pattern.CASE_INSENSITIVE),
+            Pattern.compile("Due date:\\s*(\\d{2,4}-\\d{2}-\\d{2,4})" , Pattern.CASE_INSENSITIVE),
+            Pattern.compile("Due by:\\s*(\\d{2,4}-\\d{2}-\\d{2,4})" , Pattern.CASE_INSENSITIVE),
+            Pattern.compile("Due(?: by| date)?:?\\s*(\\d{2,4}-\\d{2}-\\d{2,4})" , Pattern.CASE_INSENSITIVE),
             Pattern.compile("(?:due date|by)\\s*([\\d]{1,2}[a-zA-Z]+(?:\\s*\\w+)?)" , Pattern.CASE_INSENSITIVE)
-        )
-        val lastPaymentPattern = arrayListOf(
-            Pattern.compile("Last Payment Date:\\s*(\\d{1,2}/\\d{1,2}/\\d{4})" , Pattern.CASE_INSENSITIVE)
-        )
-        val availableCreditPattern = arrayListOf(
-            Pattern.compile("Available Credit:\\s*([\\d,]+)" , Pattern.CASE_INSENSITIVE)
-        )
-
-        val minPaymentPattern = arrayListOf(
-            Pattern.compile("Minimum Payment:\\s*([\\d,]+\\.\\d{2})" , Pattern.CASE_INSENSITIVE)
         )
 
         var matcher: Matcher
@@ -96,38 +91,14 @@ object CreditBillParsing {
             }
         }
 
-        for (lastPaymentPatternItem in lastPaymentPattern) {
-            matcher = lastPaymentPatternItem.matcher(smsText)
-            if (matcher.find()) {
-                bill.lastPaymentDate = matcher.group(1)
-                break
-            }
-        }
-
-        for (availableCreditPatternItem in availableCreditPattern) {
-            matcher = availableCreditPatternItem.matcher(smsText)
-            if (matcher.find()) {
-                bill.availableCredit = matcher.group(1)
-                break
-            }
-        }
-
-        for (minPaymentPatternItem in minPaymentPattern) {
-            matcher = minPaymentPatternItem.matcher(smsText)
-            if (matcher.find()) {
-                bill.minPayment = matcher.group(1)
-                break
-            }
-        }
-
         if (bill.card?.isNotEmpty() == true) {
-            AppLog.d(TAG, "parseCreditCardSMS : card  : ${bill.card}")
+//            AppLog.d(TAG, "parseCreditCardSMS : card  : ${bill.card}")
         }
         if (bill.billAmount?.isNotEmpty() == true) {
-            AppLog.d(TAG, "parseCreditCardSMS : billAmount  : ${bill.billAmount} dueDate  : ${bill.dueDate}")
+//            AppLog.d(TAG, "parseCreditCardSMS : billAmount  : ${bill.billAmount} dueDate  : ${bill.dueDate}")
         }
         if (bill.dueDate?.isNotEmpty() == true) {
-            AppLog.d(TAG, "parseCreditCardSMS : dueDate  : ${bill.dueDate} billAmount  : ${bill.billAmount}")
+            AppLog.d(TAG, "parseCreditCardSMS card  : ${bill.card} : dueDate  : ${bill.dueDate} billAmount  : ${bill.billAmount} sms : $smsText")
         }
         return if ((bill.billAmount?.isNotEmpty() == true) && (bill.dueDate?.isNotEmpty() == true)) bill else null
     }
