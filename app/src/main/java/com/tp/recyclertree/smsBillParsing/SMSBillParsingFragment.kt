@@ -12,11 +12,13 @@ import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import com.tp.recyclertree.AppLog
 import com.tp.recyclertree.databinding.FragmentSmsBillParsingBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
+private const val TAG = "SMSBillParsingFragment"
 class SMSBillParsingFragment : Fragment() {
 
     private lateinit var binding: FragmentSmsBillParsingBinding
@@ -86,7 +88,6 @@ class SMSBillParsingFragment : Fragment() {
             val dateColumn = cursor!!.getColumnIndex("date")
             val typeColumn = cursor!!.getColumnIndex("type")
 
-            val TAG = "SMS_PARSER"
             val listBankCodes = arrayListOf("ICICIT", "ICICIB", "HDFCBK", "HDFCBN")
             val listCardLastDigits = arrayListOf("XX5018", "XX1407")
             val listKeyWords = arrayListOf("statement", "bill")
@@ -105,17 +106,22 @@ class SMSBillParsingFragment : Fragment() {
 //                val smsbodyColumn  = (cursor.getString(smsbodyColumn))
 //                val typeColumn  = (cursor.getString(typeColumn))
 
-                    Log.d(TAG, " address $address")
-                    if (isValidBank(address, listBankCodes) && isKeyWordPresent(
-                            body,
-                            listKeyWords
-                        ) && isCardLastDigitsPresent(body, listCardLastDigits)
-                    ) {
-                        Log.d(TAG, "isValidSMS = true")
+                    AppLog.d(TAG, " address $address")
+                    val bill = CreditBillParsing.parseCreditCardSMS(body)
+                    bill?.let {
+                        AppLog.d(TAG, "CreditBillParsing address : $address bill : $bill")
                         finalFilteredListMessages.add(body)
                     }
+//                    if (isValidBank(address, listBankCodes) && isKeyWordPresent(
+//                            body,
+//                            listKeyWords
+//                        ) && isCardLastDigitsPresent(body, listCardLastDigits)
+//                    ) {
+//                        AppLog.d(TAG, "isValidSMS = true")
+//                        finalFilteredListMessages.add(body)
+//                    }
 
-//                Log.d("mvv12"," name $name  dateColumn  $dateColumn   phoneNumberColumn   $phoneNumberColumn   smsbodyColumn  $smsbodyColumn   typeColumn  $typeColumn   ")
+//                AppLog.d("mvv12"," name $name  dateColumn  $dateColumn   phoneNumberColumn   $phoneNumberColumn   smsbodyColumn  $smsbodyColumn   typeColumn  $typeColumn   ")
 
 
                 } while (cursor.moveToNext())
@@ -125,8 +131,8 @@ class SMSBillParsingFragment : Fragment() {
 
 
 
-            Log.d(TAG, " finalFilteredListMessages size : ${finalFilteredListMessages.size}")
-            Log.d(TAG, "smsList size >>>>>  ${smsList.size}  ")
+            AppLog.d(TAG, " finalFilteredListMessages size : ${finalFilteredListMessages.size}")
+            AppLog.d(TAG, "smsList size >>>>>  ${smsList.size}  ")
 
             launch(Dispatchers.Main) {
                 val showStr =
@@ -134,7 +140,7 @@ class SMSBillParsingFragment : Fragment() {
                 binding.tvSize.text = showStr
 
                 for (body in finalFilteredListMessages) {
-                    Log.d(TAG, "$body")
+                    AppLog.d(TAG, "$body")
                 }
             }
 
