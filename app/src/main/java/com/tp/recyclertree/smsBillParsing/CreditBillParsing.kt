@@ -43,9 +43,6 @@ object CreditBillParsing {
         val minAmountPattern = arrayListOf(
             Pattern.compile("Minimum(?: amt)?(?: due)?:?\\s*(?:Rs\\.|INR|Dr\\.?)?\\s*([\\d,.]+)" , Pattern.CASE_INSENSITIVE),
             Pattern.compile("Minimum Payment:\\s*([\\d,]+\\.\\d{2})" , Pattern.CASE_INSENSITIVE),
-            Pattern.compile("Total due amt: Rs.\\s*([\\d,]+\\.\\d{2})", Pattern.CASE_INSENSITIVE), // HDFC BANK TESTED, working fine
-
-
             Pattern.compile("minimum of Rs\\s*([\\d,]+\\.*\\d{0,2})", Pattern.CASE_INSENSITIVE), // ICICI TESTED
             Pattern.compile("Min due amt: Rs.\\s*([\\d,]+\\.*\\d{0,2})", Pattern.CASE_INSENSITIVE), // HDFC
             Pattern.compile("Min Amt Due Rs\\s*([\\d,]+\\.*\\d{0,2})", Pattern.CASE_INSENSITIVE), // HDFC
