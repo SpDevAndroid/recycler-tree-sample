@@ -4,6 +4,7 @@
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="edger_to_edge_fragment_label">Edge to edge Fragment</string>
+    <string name="sms_bill_parse">SMS Bill Parse Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
@@ -83,4 +84,5 @@
     <string name="timeline_fragment">Timeline Fragment</string>
     <string name="view_pager_poc">View Pager POC</string>
     <string name="milestone_fragment">Milestone Fragment</string>
+    <string name="read_sms">Read SMS</string>
 </resources>

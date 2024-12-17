@@ -18,7 +18,7 @@ class SampleActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityRecyclerTreeSampleBinding
-    private val isFullScreenEnabled = true
+    private val isFullScreenEnabled = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

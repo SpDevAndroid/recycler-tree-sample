@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/EdgeToEdgeFragment">
+    app:startDestination="@id/SMSBillParseFragment">
 
     <fragment
         android:id="@+id/FirstFragment"
@@ -20,6 +20,13 @@
         android:name="com.tp.recyclertree.edgeToEdgeSample.EdgeToEdgeContentFragment"
         android:label="@string/edger_to_edge_fragment_label"
         tools:layout="@layout/fragment_edge_to_edge_content">
+    </fragment>
+
+    <fragment
+        android:id="@+id/SMSBillParseFragment"
+        android:name="com.tp.recyclertree.smsBillParsing.SMSBillParsingFragment"
+        android:label="@string/sms_bill_parse"
+        tools:layout="@layout/fragment_sms_bill_parsing">
     </fragment>
 
     <fragment
