@@ -26,7 +26,7 @@ object CreditBillParsing {
             Pattern.compile("Total due amt: Rs.\\s*([\\d,]+\\.\\d{2})", Pattern.CASE_INSENSITIVE), // HDFC BANK TESTED, working fine
 
 
-            Pattern.compile("Total of Rs\\s*([\\d,]+\\.\\d{2})", Pattern.CASE_INSENSITIVE), // ICICI
+            Pattern.compile("Total of Rs\\s*([\\d,]+\\.\\d{2})", Pattern.CASE_INSENSITIVE), // ICICI TESTED
             Pattern.compile("Total due amt:\\s*([\\d,]+\\.\\d{2})", Pattern.CASE_INSENSITIVE), // HDFC
             Pattern.compile("Total amount due: INR Dr.\\s*([\\d,]+\\.\\d{2})", Pattern.CASE_INSENSITIVE), // Axis Bank
             Pattern.compile("Total payment of Rs.\\s*([\\d,]+\\.\\d{2})", Pattern.CASE_INSENSITIVE), // AMEX
@@ -42,7 +42,16 @@ object CreditBillParsing {
 
         val minAmountPattern = arrayListOf(
             Pattern.compile("Minimum(?: amt)?(?: due)?:?\\s*(?:Rs\\.|INR|Dr\\.?)?\\s*([\\d,.]+)" , Pattern.CASE_INSENSITIVE),
-            Pattern.compile("Minimum Payment:\\s*([\\d,]+\\.\\d{2})" , Pattern.CASE_INSENSITIVE)
+            Pattern.compile("Minimum Payment:\\s*([\\d,]+\\.\\d{2})" , Pattern.CASE_INSENSITIVE),
+            Pattern.compile("Total due amt: Rs.\\s*([\\d,]+\\.\\d{2})", Pattern.CASE_INSENSITIVE), // HDFC BANK TESTED, working fine
+
+
+            Pattern.compile("minimum of Rs\\s*([\\d,]+\\.*\\d{0,2})", Pattern.CASE_INSENSITIVE), // ICICI TESTED
+            Pattern.compile("Min due amt: Rs.\\s*([\\d,]+\\.*\\d{0,2})", Pattern.CASE_INSENSITIVE), // HDFC
+            Pattern.compile("Min Amt Due Rs\\s*([\\d,]+\\.*\\d{0,2})", Pattern.CASE_INSENSITIVE), // HDFC
+            Pattern.compile("Minimum amt due: INR Dr.\\s*([\\d,]+\\.*\\d{0,2})", Pattern.CASE_INSENSITIVE), // Axis Bank
+            Pattern.compile("minimum payment due is INR\\s*([\\d,]+\\.*\\d{0,2})", Pattern.CASE_INSENSITIVE), // Axis Bank
+
         )
 
         val dueDatePattern = arrayListOf(
