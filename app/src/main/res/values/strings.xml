@@ -85,4 +85,5 @@
     <string name="view_pager_poc">View Pager POC</string>
     <string name="milestone_fragment">Milestone Fragment</string>
     <string name="read_sms">Read SMS</string>
+    <string name="filtering_your_credit_bill_messages">Filtering your credit bill messages ...</string>
 </resources>

@@ -12,13 +12,16 @@ import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.tp.recyclertree.AppLog
+import com.tp.recyclertree.R
 import com.tp.recyclertree.databinding.FragmentSmsBillParsingBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
 private const val TAG = "SMSBillParsingFragment"
+
 class SMSBillParsingFragment : Fragment() {
 
     private lateinit var binding: FragmentSmsBillParsingBinding
@@ -47,8 +50,7 @@ class SMSBillParsingFragment : Fragment() {
     }
 
 
-
-    private fun checkPermissionToReadSMS(){
+    private fun checkPermissionToReadSMS() {
         if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_SMS)
             != PackageManager.PERMISSION_GRANTED
         ) {
@@ -65,6 +67,8 @@ class SMSBillParsingFragment : Fragment() {
     private val smsList = ArrayList<String>()
 
     private fun readSms() {
+        binding.tvSize.text = getString(R.string.filtering_your_credit_bill_messages)
+        binding.rvSms.visibility = View.GONE
         val contentResolver = this.requireActivity().contentResolver
 
 
@@ -92,7 +96,7 @@ class SMSBillParsingFragment : Fragment() {
             val listCardLastDigits = arrayListOf("XX5018", "XX1407")
             val listKeyWords = arrayListOf("statement", "bill")
 
-            val finalFilteredListMessages = ArrayList<String>()
+            val finalFilteredListMessages = ArrayList<CreditCardBill>()
             if (cursor != null && cursor.moveToFirst()) {
                 do {
                     val address =
@@ -110,7 +114,9 @@ class SMSBillParsingFragment : Fragment() {
                     val bill = CreditBillParsing.parseCreditCardSMS(body)
                     bill?.let {
                         AppLog.d(TAG, "CreditBillParsing address : $address bill : $bill")
-                        finalFilteredListMessages.add(body)
+                        bill.completeMessage = body
+                        bill.senderId = address
+                        finalFilteredListMessages.add(bill)
                     }
 //                    if (isValidBank(address, listBankCodes) && isKeyWordPresent(
 //                            body,
@@ -136,39 +142,49 @@ class SMSBillParsingFragment : Fragment() {
 
             launch(Dispatchers.Main) {
                 val showStr =
-                    "Total SMS List size :  ${smsList.size} \n\n\nFinal Filtered SMS List size : ${finalFilteredListMessages.size}"
+                    "Total SMS List size :  ${smsList.size} \n\nFinal Filtered SMS List size : ${finalFilteredListMessages.size}"
                 binding.tvSize.text = showStr
-
-                for (body in finalFilteredListMessages) {
-                    AppLog.d(TAG, "$body")
-                }
+                setFilteredSMSAdapter(finalFilteredListMessages)
             }
 
             cursor.close()
         }
     }
 
-    private fun isValidBank(smsSenderStr : String, listBankCodes : ArrayList<String>) : Boolean {
-        for(bankCode in listBankCodes) {
-            if(smsSenderStr.lowercase().contains(bankCode.lowercase())) {
+    private fun setFilteredSMSAdapter(creditCardBillList: ArrayList<CreditCardBill>) {
+        binding.rvSms.visibility = View.VISIBLE
+        activity?.let {
+            binding.rvSms.layoutManager =
+                LinearLayoutManager(it, LinearLayoutManager.VERTICAL, false)
+            val adapter = SMSListAdapter(creditCardBillList)
+            binding.rvSms.adapter = adapter
+        }
+    }
+
+    private fun isValidBank(smsSenderStr: String, listBankCodes: ArrayList<String>): Boolean {
+        for (bankCode in listBankCodes) {
+            if (smsSenderStr.lowercase().contains(bankCode.lowercase())) {
                 return true
             }
         }
         return false
     }
 
-    private fun isKeyWordPresent(smsBodyStr : String, listKeywords : ArrayList<String>) : Boolean {
-        for(keyword in listKeywords) {
-            if(smsBodyStr.lowercase().contains(keyword.lowercase())) {
+    private fun isKeyWordPresent(smsBodyStr: String, listKeywords: ArrayList<String>): Boolean {
+        for (keyword in listKeywords) {
+            if (smsBodyStr.lowercase().contains(keyword.lowercase())) {
                 return true
             }
         }
         return false
     }
 
-    private fun isCardLastDigitsPresent(smsBodyStr : String, listCardLastDigits : ArrayList<String>) : Boolean {
-        for(cardNumberLastDigits in listCardLastDigits) {
-            if(smsBodyStr.lowercase().contains(cardNumberLastDigits.lowercase())) {
+    private fun isCardLastDigitsPresent(
+        smsBodyStr: String,
+        listCardLastDigits: ArrayList<String>
+    ): Boolean {
+        for (cardNumberLastDigits in listCardLastDigits) {
+            if (smsBodyStr.lowercase().contains(cardNumberLastDigits.lowercase())) {
                 return true
             }
         }
