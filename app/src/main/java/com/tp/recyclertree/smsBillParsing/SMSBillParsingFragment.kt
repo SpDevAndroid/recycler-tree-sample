@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.Telephony
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -96,7 +95,7 @@ class SMSBillParsingFragment : Fragment() {
             val listCardLastDigits = arrayListOf("XX5018", "XX1407")
             val listKeyWords = arrayListOf("statement", "bill")
 
-            val finalFilteredListMessages = ArrayList<CreditCardBill>()
+            val finalFilteredListMessages = ArrayList<BillData>()
             if (cursor != null && cursor.moveToFirst()) {
                 do {
                     val address =
@@ -111,7 +110,7 @@ class SMSBillParsingFragment : Fragment() {
 //                val typeColumn  = (cursor.getString(typeColumn))
 
                     AppLog.d(TAG, " address $address")
-                    val bill = CreditBillParsing.parseCreditCardSMS(body)
+                    val bill = BillParseUtil.parseCreditCardSMS(body)
                     bill?.let {
                         AppLog.d(TAG, "CreditBillParsing address : $address bill : $bill")
                         bill.completeMessage = body
@@ -151,12 +150,12 @@ class SMSBillParsingFragment : Fragment() {
         }
     }
 
-    private fun setFilteredSMSAdapter(creditCardBillList: ArrayList<CreditCardBill>) {
+    private fun setFilteredSMSAdapter(billDataList: ArrayList<BillData>) {
         binding.rvSms.visibility = View.VISIBLE
         activity?.let {
             binding.rvSms.layoutManager =
                 LinearLayoutManager(it, LinearLayoutManager.VERTICAL, false)
-            val adapter = SMSListAdapter(creditCardBillList)
+            val adapter = SMSListAdapter(billDataList)
             binding.rvSms.adapter = adapter
         }
     }

@@ -9,7 +9,7 @@ import com.tp.recyclertree.databinding.LayoutSmsListItemBinding
 private const val TAG = "SMSListAdapter"
 
 class SMSListAdapter(
-    private val listItems: ArrayList<CreditCardBill>
+    private val listItems: ArrayList<BillData>
 ) : RecyclerView.Adapter<SMSListAdapter.ItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -35,10 +35,10 @@ class SMSListAdapter(
         private val binding: LayoutSmsListItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun onBind(creditCardBill: CreditCardBill) {
-            val titleText = "${creditCardBill.senderId} ( ${creditCardBill.card} )"
+        fun onBind(billData: BillData) {
+            val titleText = "${billData.senderId} ( ${billData.card?:billData.billNumber?:""} )"
             binding.tvSenderId.text = titleText
-            binding.tvMessage.text = creditCardBill.completeMessage
+            binding.tvMessage.text = billData.completeMessage
         }
     }
 }

@@ -7,11 +7,11 @@ import java.util.regex.Pattern
 
 private const val TAG = "CreditBillParsing"
 
-object CreditBillParsing {
+object BillParseUtil {
 
-    fun parseCreditCardSMS(smsText: String): CreditCardBill? {
+    fun parseCreditCardSMS(smsText: String): BillData? {
 //        AppLog.d(TAG, "parseCreditCardSMS smsText : $smsText")
-        val bill = CreditCardBill()
+        val bill = BillData()
 
         // Regular expression patterns to extract relevant details
         val cardPattern = arrayListOf(
@@ -24,8 +24,6 @@ object CreditBillParsing {
 
         val amountPattern = arrayListOf(
             Pattern.compile("Total due amt: Rs.\\s*([\\d,]+\\.\\d{2})", Pattern.CASE_INSENSITIVE), // HDFC BANK TESTED, working fine
-
-
             Pattern.compile("Total of Rs\\s*([\\d,]+\\.\\d{2})", Pattern.CASE_INSENSITIVE), // ICICI TESTED
             Pattern.compile("Total due amt:\\s*([\\d,]+\\.\\d{2})", Pattern.CASE_INSENSITIVE), // HDFC
             Pattern.compile("Total amount due: INR Dr.\\s*([\\d,]+\\.\\d{2})", Pattern.CASE_INSENSITIVE), // Axis Bank
@@ -38,6 +36,11 @@ object CreditBillParsing {
             Pattern.compile("\\$([\\d,\\.]+)" , Pattern.CASE_INSENSITIVE),
             Pattern.compile("Amount: \\$(\\d+\\.\\d{2})" , Pattern.CASE_INSENSITIVE),
             Pattern.compile("INR\\s*(\\d+(?:\\.\\d{1,2})?)" , Pattern.CASE_INSENSITIVE),
+
+            // Electricity bill samples
+            Pattern.compile("Rs\\.\\s*(\\d+\\.\\d{2})" , Pattern.CASE_INSENSITIVE), //
+            Pattern.compile("Rs\\.*\\s*([\\d,]+\\.\\d{2})" , Pattern.CASE_INSENSITIVE), // BSES
+            Pattern.compile("Rs\\.*\\s*(\\d+/-)" , Pattern.CASE_INSENSITIVE), // AVVNL
         )
 
         val minAmountPattern = arrayListOf(
@@ -60,7 +63,23 @@ object CreditBillParsing {
             Pattern.compile("Due date:\\s*(\\d{2,4}-\\d{2}-\\d{2,4})" , Pattern.CASE_INSENSITIVE),
             Pattern.compile("Due by:\\s*(\\d{2,4}-\\d{2}-\\d{2,4})" , Pattern.CASE_INSENSITIVE),
             Pattern.compile("Due(?: by| date)?:?\\s*(\\d{2,4}-\\d{2}-\\d{2,4})" , Pattern.CASE_INSENSITIVE),
-            Pattern.compile("(?:due date|by)\\s*([\\d]{1,2}[a-zA-Z]+(?:\\s*\\w+)?)" , Pattern.CASE_INSENSITIVE)
+            Pattern.compile("(?:due date|by)\\s*([\\d]{1,2}[a-zA-Z]+(?:\\s*\\w+)?)" , Pattern.CASE_INSENSITIVE),
+
+            // Electricity bill samples
+            Pattern.compile("Due date:\\s*(\\d{1,2}[a-zA-Z]{2}\\s*[a-zA-Z]+\\s*\\d{4})" , Pattern.CASE_INSENSITIVE),
+            Pattern.compile("due on\\s*(\\d{1,2}\\.\\d{1,2}\\.\\d{4})" , Pattern.CASE_INSENSITIVE), // BSES
+            Pattern.compile("due on\\s*(\\d{1,2}-[a-zA-Z]{3}-\\d{4})" , Pattern.CASE_INSENSITIVE) // AVVNL
+        )
+
+        val consumptionUnitPattern = arrayListOf(
+            // Electricity bill samples
+            Pattern.compile("Total consumption:\\s*(\\d+)\\s*kWh", Pattern.CASE_INSENSITIVE),
+        )
+
+        val billNumberPatterns = arrayListOf(
+            // Electricity bill samples
+            Pattern.compile("CA\\s*(\\d+),*", Pattern.CASE_INSENSITIVE), // BSES
+            Pattern.compile("KNO\\s*(\\d+)\\s", Pattern.CASE_INSENSITIVE), // AVVNL
         )
 
         var matcher: Matcher
@@ -97,11 +116,28 @@ object CreditBillParsing {
             }
         }
 
-        if (bill.card?.isNotEmpty() == true) {
-//            AppLog.d(TAG, "parseCreditCardSMS : card  : ${bill.card}")
+        for (consumptionUnitPatternItem in consumptionUnitPattern) {
+            matcher = consumptionUnitPatternItem.matcher(smsText)
+            if (matcher.find()) {
+                bill.consumptionUnits = matcher.group(1)
+                break
+            }
         }
-        if (bill.billAmount?.isNotEmpty() == true) {
-//            AppLog.d(TAG, "parseCreditCardSMS : billAmount  : ${bill.billAmount} dueDate  : ${bill.dueDate}")
+
+        for (billNumberPatternItem in billNumberPatterns) {
+            matcher = billNumberPatternItem.matcher(smsText)
+            if (matcher.find()) {
+                bill.billNumber = matcher.group(1)
+                break
+            }
+        }
+
+
+        if (bill.billNumber?.isNotEmpty() == true) {
+            AppLog.d(TAG, "parseCreditCardSMS : billNumber  : ${bill.billNumber}")
+        }
+        if (bill.consumptionUnits?.isNotEmpty() == true) {
+            AppLog.d(TAG, "parseCreditCardSMS : billAmount  : ${bill.billAmount} consumptionUnits  : ${bill.consumptionUnits}")
         }
         if (bill.dueDate?.isNotEmpty() == true) {
             AppLog.d(TAG, "parseCreditCardSMS card  : ${bill.card} : dueDate  : ${bill.dueDate} billAmount  : ${bill.billAmount} sms : $smsText")

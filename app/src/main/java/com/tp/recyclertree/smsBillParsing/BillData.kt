@@ -1,6 +1,6 @@
 package com.tp.recyclertree.smsBillParsing
 
-class CreditCardBill {
+class BillData {
     // Getters and Setters
     var card: String? = null
     var billAmount: String? = null
@@ -8,9 +8,11 @@ class CreditCardBill {
     var dueDate: String? = null
     var completeMessage: String? = null
     var senderId: String? = null
+    var consumptionUnits: String? = null
+    var billNumber: String? = null
 
     override fun toString(): String {
-        return "CreditCardBill{" +
+        return "BillData{" +
                 "card='" + card + '\'' +
                 "billAmount='" + billAmount + '\'' +
                 "minAmount='" + minBillAmount + '\'' +
