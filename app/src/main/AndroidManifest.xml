@@ -5,7 +5,8 @@
     <uses-feature
         android:name="android.hardware.telephony"
         android:required="false" />
-    <uses-permission android:name="android.permission.READ_SMS"/>
+
+    <uses-permission android:name="android.permission.READ_SMS" />
 
     <application
         android:allowBackup="true"
@@ -21,8 +22,8 @@
             android:name=".SampleActivity"
             android:exported="true"
             android:label="@string/title_activity_sample"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/Theme.RecyclerTreePOC">
+            android:theme="@style/Theme.RecyclerTreePOC"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

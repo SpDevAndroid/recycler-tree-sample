@@ -86,4 +86,5 @@
     <string name="milestone_fragment">Milestone Fragment</string>
     <string name="read_sms">Read and filter SMS</string>
     <string name="filtering_your_credit_bill_messages">Filtering your credit bill messages ...</string>
+    <string name="title_activity_compose_sample">ComposeSampleActivity</string>
 </resources>
