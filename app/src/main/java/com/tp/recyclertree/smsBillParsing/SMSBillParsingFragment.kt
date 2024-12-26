@@ -101,6 +101,7 @@ class SMSBillParsingFragment : Fragment() {
             val dateColumn = cursor!!.getColumnIndex("date")
             val typeColumn = cursor!!.getColumnIndex("type")
 
+            /** Added temporary filters to read specific sender's messages  **/
             val listSenderId = arrayListOf("08447200476", "8447200476", "Akash", "7549800482", "9863264151")
 //            val listSenderId = arrayListOf("ICICIT", "ICICIB", "HDFCBK", "HDFCBN")
 //            val listCardLastDigits = arrayListOf("XX5018", "XX1407")
