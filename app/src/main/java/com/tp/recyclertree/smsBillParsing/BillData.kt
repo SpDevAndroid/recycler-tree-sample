@@ -7,6 +7,8 @@ class BillData {
     var minBillAmount: String? = null
     var dueDate: String? = null
     var completeMessage: String? = null
+    var messageDateTimestamp: String? = null
+    var messageDateFormatted: String? = null
     var senderId: String? = null
     var consumptionUnits: String? = null
     var billNumber: String? = null

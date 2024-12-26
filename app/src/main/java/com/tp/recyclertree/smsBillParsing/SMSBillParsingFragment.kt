@@ -4,12 +4,12 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.Telephony
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tp.recyclertree.AppLog
@@ -101,9 +101,10 @@ class SMSBillParsingFragment : Fragment() {
             val dateColumn = cursor!!.getColumnIndex("date")
             val typeColumn = cursor!!.getColumnIndex("type")
 
-            val listBankCodes = arrayListOf("ICICIT", "ICICIB", "HDFCBK", "HDFCBN")
-            val listCardLastDigits = arrayListOf("XX5018", "XX1407")
-            val listKeyWords = arrayListOf("statement", "bill")
+            val listSenderId = arrayListOf("08447200476", "8447200476", "Akash", "7549800482", "9863264151")
+//            val listSenderId = arrayListOf("ICICIT", "ICICIB", "HDFCBK", "HDFCBN")
+//            val listCardLastDigits = arrayListOf("XX5018", "XX1407")
+//            val listKeyWords = arrayListOf("statement", "bill")
 
             val finalFilteredListMessages = ArrayList<BillData>()
             if (cursor != null && cursor.moveToFirst()) {
@@ -113,28 +114,43 @@ class SMSBillParsingFragment : Fragment() {
                     val body = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Sms.BODY))
                     smsList.add("Sender: $address\nMessage: $body")
 
-//               val name = (cursor.getString(nameColumn))
-//                val dateColumn = (cursor.getString(dateColumn))
 //                val phoneNumberColumn = (cursor.getString(phoneNumberColumn))
 //                val smsbodyColumn  = (cursor.getString(smsbodyColumn))
 //                val typeColumn  = (cursor.getString(typeColumn))
 
-                    AppLog.d(TAG, " address $address")
-                    val bill = BillParseUtil.parseCreditCardSMS(body)
-                    bill?.let {
+                    val dateTimeStamp = (cursor.getString(dateColumn))
+                    val name = (cursor.getString(nameColumn))
+
+
+                    val dateFormattedStr = getDate_ddMMyyyy(dateTimeStamp)
+                    AppLog.d(
+                        TAG,
+                        "TEST_Filter Sender $address  dateMessage $dateFormattedStr"
+                    )
+                    var bill: BillData? = BillParseUtil.parseCreditCardSMS(body)
+                    bill?.let { data ->
                         AppLog.d(TAG, "CreditBillParsing address : $address bill : $bill")
-                        bill.completeMessage = body
-                        bill.senderId = address
-                        finalFilteredListMessages.add(bill)
+                        data.completeMessage = body
+                        data.senderId = address
+                        data.messageDateTimestamp = dateTimeStamp
+                        data.messageDateFormatted = dateFormattedStr
+                        finalFilteredListMessages.add(data)
+                    } ?: kotlin.run {
+                        if (isValidSenders(address, listSenderId)) {
+
+//                            if (isValidBank(address, listBankCodes) && isKeyWordPresent(
+//                                    body,
+//                                    listKeyWords
+//                                ) && isCardLastDigitsPresent(body, listCardLastDigits)
+//                            ) {
+                            AppLog.d(TAG, "isValidSMS = true  address : $address")
+                            bill = BillData()
+                            bill?.completeMessage = body
+                            bill?.senderId = address
+                            finalFilteredListMessages.add(bill!!)
+                        }
                     }
-//                    if (isValidBank(address, listBankCodes) && isKeyWordPresent(
-//                            body,
-//                            listKeyWords
-//                        ) && isCardLastDigitsPresent(body, listCardLastDigits)
-//                    ) {
-//                        AppLog.d(TAG, "isValidSMS = true")
-//                        finalFilteredListMessages.add(body)
-//                    }
+//
 
 //                AppLog.d("mvv12"," name $name  dateColumn  $dateColumn   phoneNumberColumn   $phoneNumberColumn   smsbodyColumn  $smsbodyColumn   typeColumn  $typeColumn   ")
 
@@ -160,6 +176,24 @@ class SMSBillParsingFragment : Fragment() {
         }
     }
 
+    private fun getDate_ddMMyyyy(timestampStr: String): String {
+        return try {
+            val timestamp = timestampStr.toLong()
+            AppLog.d(TAG, "getDate_ddMMyyyy : timestamp : $timestamp")
+            val calendar = Calendar.getInstance(Locale.ENGLISH)
+            calendar.timeInMillis = timestamp
+            val date = android.text.format.DateFormat.format("dd-MM-yyyy HH:mm:ss", calendar).toString()
+            date
+        } catch (e: Throwable) {
+            AppLog.d(TAG, "getDate_ddMMyyyy : Exception : ${e.message} ")
+
+            e.printStackTrace()
+
+            ""
+        }
+    }
+
+
     private fun setFilteredSMSAdapter(billDataList: ArrayList<BillData>) {
         binding.rvSms.visibility = View.VISIBLE
         activity?.let {
@@ -170,7 +204,7 @@ class SMSBillParsingFragment : Fragment() {
         }
     }
 
-    private fun isValidBank(smsSenderStr: String, listBankCodes: ArrayList<String>): Boolean {
+    private fun isValidSenders(smsSenderStr: String, listBankCodes: ArrayList<String>): Boolean {
         for (bankCode in listBankCodes) {
             if (smsSenderStr.lowercase().contains(bankCode.lowercase())) {
                 return true

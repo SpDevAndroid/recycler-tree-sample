@@ -38,6 +38,7 @@ class SMSListAdapter(
         fun onBind(billData: BillData) {
             val titleText = "${billData.senderId} ( ${billData.card?:billData.billNumber?:""} )"
             binding.tvSenderId.text = titleText
+            binding.tvMessageDate.text = billData.messageDateFormatted
             binding.tvMessage.text = billData.completeMessage
         }
     }
