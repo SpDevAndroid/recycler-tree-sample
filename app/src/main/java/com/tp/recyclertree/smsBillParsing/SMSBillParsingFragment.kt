@@ -2,6 +2,7 @@ package com.tp.recyclertree.smsBillParsing
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.provider.Telephony
 import android.view.LayoutInflater
@@ -88,7 +89,8 @@ class SMSBillParsingFragment : Fragment() {
 
         lifecycleScope.launch(Dispatchers.IO) {
             val cursor = contentResolver.query(
-                Telephony.Sms.CONTENT_URI,
+//                Telephony.Sms.CONTENT_URI,
+                Uri.parse("content://sms/inbox"),
                 projection,
                 "date>?",
                 arrayDateSelection,
@@ -102,7 +104,7 @@ class SMSBillParsingFragment : Fragment() {
             val typeColumn = cursor!!.getColumnIndex("type")
 
             /** Added temporary filters to read specific sender's messages  **/
-            val listSenderId = arrayListOf("08447200476", "8447200476", "Akash", "7549800482", "9863264151")
+            val listSenderId = arrayListOf("08447200476", "8447200476", "Akash", "7549800482", "9863264151", "57575022")
 //            val listSenderId = arrayListOf("ICICIT", "ICICIB", "HDFCBK", "HDFCBN")
 //            val listCardLastDigits = arrayListOf("XX5018", "XX1407")
 //            val listKeyWords = arrayListOf("statement", "bill")
