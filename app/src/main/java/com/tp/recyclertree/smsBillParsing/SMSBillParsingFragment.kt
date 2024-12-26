@@ -150,6 +150,8 @@ class SMSBillParsingFragment : Fragment() {
                             bill = BillData()
                             bill?.completeMessage = body
                             bill?.senderId = address
+                            bill?.messageDateTimestamp = dateTimeStamp
+                            bill?.messageDateFormatted = dateFormattedStr
                             finalFilteredListMessages.add(bill!!)
                         }
                     }
