@@ -185,7 +185,7 @@ class SMSBillParsingFragment : Fragment() {
             AppLog.d(TAG, "getDate_ddMMyyyy : timestamp : $timestamp")
             val calendar = Calendar.getInstance(Locale.ENGLISH)
             calendar.timeInMillis = timestamp
-            val date = android.text.format.DateFormat.format("dd-MM-yyyy HH:mm:ss", calendar).toString()
+            val date = android.text.format.DateFormat.format("dd-MM-yyyy hh.mm aa", calendar).toString()
             date
         } catch (e: Throwable) {
             AppLog.d(TAG, "getDate_ddMMyyyy : Exception : ${e.message} ")
