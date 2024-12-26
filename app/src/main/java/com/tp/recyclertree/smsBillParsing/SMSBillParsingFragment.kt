@@ -17,6 +17,9 @@ import com.tp.recyclertree.R
 import com.tp.recyclertree.databinding.FragmentSmsBillParsingBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 
 private const val TAG = "SMSBillParsingFragment"
@@ -71,6 +74,13 @@ class SMSBillParsingFragment : Fragment() {
         val contentResolver = this.requireActivity().contentResolver
 
 
+        val numberOfDaysInPast = 60L
+
+        /** Get date of [numberOfDaysInPast] days before today**/
+        val date30DaysBefore: Long =
+            Date(System.currentTimeMillis() - numberOfDaysInPast * 24 * 3600 * 1000).time
+        val arrayDateSelection = arrayOf("$date30DaysBefore")
+
         val projection = arrayOf(
             "_id", "address", "person",
             "body", "date", "type"
@@ -80,8 +90,8 @@ class SMSBillParsingFragment : Fragment() {
             val cursor = contentResolver.query(
                 Telephony.Sms.CONTENT_URI,
                 projection,
-                null,
-                null,
+                "date>?",
+                arrayDateSelection,
                 "date desc"
             )
 
