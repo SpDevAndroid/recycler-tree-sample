@@ -23,4 +23,9 @@
 
     <color name="transparent">#00FFFFFF</color>
 
+    <color name="tb_bg_color_1">#FF010101</color> <!-- Main Screen BG color    -->
+    <color name="tb_text_color_6">#FFEBD5B3</color> <!--  Gold color, selected navigation item color -->
+    <color name="tb_bg_color_9">#4DEBD5B3</color> <!-- glow effect color category -->
+    <color name="tb_text_color_1">#FFCDCDCD</color> <!-- Main text color -->
+
 </resources>

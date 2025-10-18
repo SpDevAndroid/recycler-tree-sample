@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/margin_3"
+        >
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/expandView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner_8"
+            android:backgroundTint="@color/tp_cta_bg_color_3"
+            android:gravity="center"
+            android:padding="@dimen/margin_3"
+            android:text="Top item"
+            android:textColor="@color/black"
+            android:textSize="20.sp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/expandView2"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_marginTop="@dimen/margin_3"
+            android:background="@drawable/rounded_corner_8"
+            android:backgroundTint="@color/tp_cta_bg_color_2"
+            android:gravity="center"
+            android:text="Click here to exapand"
+            android:textColor="@color/black"
+            android:textSize="20.sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/expandView1" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/expandView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_3"
+            android:background="@drawable/rounded_corner_8"
+            android:backgroundTint="@color/tp_cta_bg_color_1"
+            android:gravity="center"
+            android:padding="@dimen/margin_3"
+            android:text="Bottom item"
+            android:textColor="@color/black"
+            android:textSize="20.sp"
+            app:layout_constraintTop_toBottomOf="@+id/expandView2" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.core.widget.NestedScrollView>

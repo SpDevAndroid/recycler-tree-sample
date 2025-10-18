@@ -10,4 +10,11 @@
         <attr name="cornerRadiusGlowButton" format="dimension" />
         <attr name="strokeSize" format="dimension" />
     </declare-styleable>
+
+    <style name="text_space_char">
+        <item name="fontFamily">@font/raleway_bold</item>
+        <item name="android:fontFamily">@font/raleway_bold</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:letterSpacing">0.21</item>
+    </style>
 </resources>

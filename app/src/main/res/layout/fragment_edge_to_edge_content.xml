@@ -1,23 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/tb_bg_color_1"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".edgeToEdgeSample.EdgeToEdgeContentFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tl_categories"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/teal_700">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_3"
+        android:background="@android:color/transparent"
+        android:clipToPadding="false"
+        android:scrollbars="none"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tabBackground="@drawable/category_tab_selector"
+        app:tabIndicatorHeight="0dp"
+        app:tabMinWidth="0dp"
+        app:tabMode="auto"
+        app:tabPadding="0dp"
+        app:tabRippleColor="@android:color/transparent" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textview_second"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_3"
-            android:paddingBottom="@dimen/margin_3"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="@string/lorem_ipsum" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp_data_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingStart="@dimen/margin_3"
+        app:layout_constraintBottom_toTopOf="@+id/fixBottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tl_categories"
+        tools:ignore="RtlSymmetry" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/fixBottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/teal_200"
+        android:gravity="center"
+        android:text="Fixed View Bottom"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

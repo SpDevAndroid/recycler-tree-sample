@@ -44,4 +44,6 @@
     <dimen name="timeline_item_axis_item_indicator_height">10dp</dimen>
     <dimen name="graph_item_width">40dp</dimen>
 
+    <dimen name="event_vp_next_item_view">40dp</dimen>
+
 </resources>
