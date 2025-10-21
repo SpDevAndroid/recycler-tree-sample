@@ -65,8 +65,9 @@ class EdgeToEdgeContentFragment : Fragment() {
         recyclerView.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
 
         // Set padding for peek effect (16dp on each side)
-        val peekOffset = resources.getDimension(R.dimen.margin_6).toInt()
-        viewPager.setPadding(peekOffset, 0, peekOffset, 0)
+        val peekOffset = resources.getDimension(R.dimen.margin_4).toInt()
+        val peekOffsetRight = resources.getDimension(R.dimen.margin_6).toInt()
+        viewPager.setPadding(peekOffset, 0, peekOffsetRight, 0)
 
         // Add page margin between items (8dp spacing)
         val pageMargin = resources.getDimension(R.dimen.margin_3).toInt()

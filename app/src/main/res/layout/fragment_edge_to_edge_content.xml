@@ -28,8 +28,6 @@
         android:layout_height="0dp"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:layout_marginStart="-16dp"
-        android:layout_marginEnd="-16dp"
         app:layout_constraintTop_toBottomOf="@id/tl_categories"
         app:layout_constraintBottom_toTopOf="@+id/fixBottom"
         app:layout_constraintStart_toStartOf="parent"
