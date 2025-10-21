@@ -46,4 +46,9 @@
 
     <dimen name="event_vp_next_item_view">40dp</dimen>
 
+    <dimen name="viewpager_peek_padding">60dp</dimen>
+    <dimen name="viewpager_edge_padding">16dp</dimen>
+    <dimen name="viewpager_page_margin">16dp</dimen>
+
+
 </resources>

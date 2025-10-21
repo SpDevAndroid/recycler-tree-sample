@@ -55,8 +55,6 @@ class ViewPagerSampleAdapter(
             val bottomText = "Bottom item ${position + 1}"
             binding.expandView1.text = topText
             binding.expandView3.text = bottomText
-
-
         }
 
     }

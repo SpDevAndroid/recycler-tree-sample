@@ -4,37 +4,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/tb_bg_color_1"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".edgeToEdgeSample.EdgeToEdgeContentFragment">
 
+    <!-- TabLayout -->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tl_categories"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_3"
-        android:background="@android:color/transparent"
-        android:clipToPadding="false"
-        android:scrollbars="none"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tabBackground="@drawable/category_tab_selector"
-        app:tabIndicatorHeight="0dp"
-        app:tabMinWidth="0dp"
-        app:tabMode="auto"
-        app:tabPadding="0dp"
-        app:tabRippleColor="@android:color/transparent" />
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/vp_data_container"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:tabGravity="fill"
+        app:tabMode="scrollable"
+        android:background="@color/tb_bg_color_1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- ViewPager2 -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:paddingStart="@dimen/margin_3"
+        android:layout_marginStart="-16dp"
+        android:layout_marginEnd="-16dp"
+        app:layout_constraintTop_toBottomOf="@id/tl_categories"
         app:layout_constraintBottom_toTopOf="@+id/fixBottom"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tl_categories"
-        tools:ignore="RtlSymmetry" />
+        app:layout_constraintEnd_toEndOf="parent"/>
+
 
 
     <androidx.appcompat.widget.AppCompatTextView
