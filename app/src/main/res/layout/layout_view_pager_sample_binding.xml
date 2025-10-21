@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -40,6 +41,21 @@
             app:layout_constraintTop_toBottomOf="@+id/expandView1" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/expandViewToggle"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/rounded_corner_8"
+            android:backgroundTint="@color/tp_cta_bg_color_2"
+            android:gravity="center"
+            android:text="Expanded view state"
+            android:textColor="@color/black"
+            android:textSize="20.sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@+id/expandView2" />
+
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/expandView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,7 +67,7 @@
             android:text="Bottom item"
             android:textColor="@color/black"
             android:textSize="20.sp"
-            app:layout_constraintTop_toBottomOf="@+id/expandView2" />
+            app:layout_constraintTop_toBottomOf="@+id/expandViewToggle" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
