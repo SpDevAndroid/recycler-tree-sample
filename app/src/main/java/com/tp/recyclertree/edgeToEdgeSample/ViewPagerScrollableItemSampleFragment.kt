@@ -1,6 +1,5 @@
 package com.tp.recyclertree.edgeToEdgeSample
 
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,12 +13,11 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.tp.recyclertree.R
 import com.tp.recyclertree.databinding.CategoryTabItemBinding
 import com.tp.recyclertree.databinding.FragmentEdgeToEdgeContentBinding
-import com.tp.recyclertree.pagersample.HorizontalMarginItemDecoration
 import com.tp.recyclertree.pagersample.ViewPagerSampleAdapter
 
 
-private const val TAG = ""
-class EdgeToEdgeContentFragment : Fragment() {
+private const val TAG = "ViewPagerScrollableItemSampleFragment"
+class ViewPagerScrollableItemSampleFragment : Fragment() {
 
     private var _binding: FragmentEdgeToEdgeContentBinding? = null
 

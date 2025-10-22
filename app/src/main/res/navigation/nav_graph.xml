@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/EdgeToEdgeFragment">
+    app:startDestination="@id/ViewPagerScrollableSampleFragment">
 
     <fragment
         android:id="@+id/FirstFragment"
@@ -13,11 +13,11 @@
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/EdgeToEdgeFragment" />
+            app:destination="@id/ViewPagerScrollableSampleFragment" />
     </fragment>
     <fragment
-        android:id="@+id/EdgeToEdgeFragment"
-        android:name="com.tp.recyclertree.edgeToEdgeSample.EdgeToEdgeContentFragment"
+        android:id="@+id/ViewPagerScrollableSampleFragment"
+        android:name="com.tp.recyclertree.edgeToEdgeSample.ViewPagerScrollableItemSampleFragment"
         android:label="@string/edger_to_edge_fragment_label"
         tools:layout="@layout/fragment_edge_to_edge_content">
     </fragment>
